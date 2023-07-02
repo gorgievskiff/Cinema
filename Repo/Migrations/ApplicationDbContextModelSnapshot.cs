@@ -22,7 +22,7 @@ namespace Cinema.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Data.Genre", b =>
+            modelBuilder.Entity("Domain.DomainModels.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace Cinema.Data.Migrations
                     b.ToTable("Genres");
                 });
 
-            modelBuilder.Entity("Data.Movie", b =>
+            modelBuilder.Entity("Domain.DomainModels.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace Cinema.Data.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("Data.MovieGenre", b =>
+            modelBuilder.Entity("Domain.DomainModels.MovieGenre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,6 +87,38 @@ namespace Cinema.Data.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("MovieGenres");
+                });
+
+            modelBuilder.Entity("Domain.DomainModels.Ticket", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("SeatNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Time")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -291,21 +323,32 @@ namespace Cinema.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Data.MovieGenre", b =>
+            modelBuilder.Entity("Domain.DomainModels.MovieGenre", b =>
                 {
-                    b.HasOne("Data.Genre", "Genre")
+                    b.HasOne("Domain.DomainModels.Genre", "Genre")
                         .WithMany("MovieGenres")
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Movie", "Movie")
+                    b.HasOne("Domain.DomainModels.Movie", "Movie")
                         .WithMany("MovieGenres")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Genre");
+
+                    b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("Domain.DomainModels.Ticket", b =>
+                {
+                    b.HasOne("Domain.DomainModels.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Movie");
                 });
@@ -361,12 +404,12 @@ namespace Cinema.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Data.Genre", b =>
+            modelBuilder.Entity("Domain.DomainModels.Genre", b =>
                 {
                     b.Navigation("MovieGenres");
                 });
 
-            modelBuilder.Entity("Data.Movie", b =>
+            modelBuilder.Entity("Domain.DomainModels.Movie", b =>
                 {
                     b.Navigation("MovieGenres");
                 });

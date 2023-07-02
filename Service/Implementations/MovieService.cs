@@ -22,9 +22,9 @@ namespace Service.Implementations
             return await  _movieDa.Add(movieDto);
         }
 
-        public Task<int> Delete(int movieId)
+        public async Task<int> Delete(int movieId)
         {
-            throw new NotImplementedException();
+            return await _movieDa.Delete(movieId);
         }
 
         public async Task<List<DisplayMovieDto>> GetAll()

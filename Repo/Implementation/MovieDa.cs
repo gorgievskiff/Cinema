@@ -31,7 +31,8 @@ namespace Repo.Implementation
                 movie.Rating = movieDto.Rating;
 
                 _db.Movies.Add(movie);
-                var movieId = _db.SaveChanges();
+                await _db.SaveChangesAsync();
+                int movieId = movie.Id;
 
                 var movieGenre = new MovieGenre();
                 movieGenre.MovieId = movieId;
@@ -48,9 +49,23 @@ namespace Repo.Implementation
             }
         }
 
-        public Task<int> Delete(int movieId)
+        public async Task<int> Delete(int movieId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var movieFromDb = await _db.Movies.Where(x => x.Id == movieId).FirstOrDefaultAsync();
+                var movieGenres = await _db.MovieGenres.Where(x => x.MovieId == movieId).ToListAsync();
+
+                _db.MovieGenres.RemoveRange(movieGenres);
+                _db.Movies.Remove(movieFromDb);
+
+                return await _db.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                throw;
+            }
         }
 
         public async Task<List<Movie>> GetAll()

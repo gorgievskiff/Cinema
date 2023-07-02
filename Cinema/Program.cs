@@ -20,6 +20,8 @@ builder.Services.TryAddScoped<IGenreService, GenreService>();
 builder.Services.TryAddScoped<IGenreDa, GenreDa>();
 builder.Services.TryAddScoped<IMovieService, MovieService>();
 builder.Services.TryAddScoped<IMovieDa, MovieDa>();
+builder.Services.TryAddScoped<ITicketDa, TicketDa>();
+builder.Services.TryAddScoped<ITicketService , TicketService>();
 
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

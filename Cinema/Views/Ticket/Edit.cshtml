@@ -1,0 +1,77 @@
+﻿@using Domain.DTO;
+@model EditTicketDto
+
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Edit Ticket";
+}
+
+<div class="container">
+    <div class="content-heading">
+        <div>
+            Ticket
+            <div>
+                <small>Edit ticket</small>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12 pt-3 ">
+        <div class="card rounded">
+            <div class="card-header text-white rounded">
+                <div class="card-title text-dark">Edit ticket</div>
+            </div>
+            <div>
+                <div class="card-body">
+                    <form asp-action="Edit" asp-controller="Ticket">
+                        <input asp-for="Id" hidden />
+                        <div class="text-sm mb-3">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Price">Ticket price</label>
+                                    <div class="input-group fo">
+                                        <input asp-for="Price" type="text" class="form-control" aria-label="Enter ticket price in dollars">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="SelectedMovieId">Movie</label>
+                                    @Html.DropDownListFor(x => x.SelectedMovieId, new SelectList(Model.Movies, "Id", "Name"),"Please select movie", new{@class = "form-control rounded"})
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="SeatNumber">Seat number</label>
+                                    <input asp-for="SeatNumber" class="form-control rounded" placeholder="Enter seat number">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Date">Date</label>
+                                    <input type="date" asp-for="Date" class="form-control rounded" placeholder="Enter Date">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Time">Time</label>
+                                    <input asp-for="Time" class="form-control rounded" placeholder="Enter time">
+                                </div>
+                                <div class="form-group col-md-6 pt-4">
+                                    <label asp-for="IsAvailable">Is Available</label>
+                                    <input class="form-check-input" type="checkbox" asp-for="IsAvailable" />
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary rounded">Submit</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

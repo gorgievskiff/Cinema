@@ -1,4 +1,5 @@
-﻿using Domain.DTO;
+﻿using Domain.DomainModels;
+using Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Repo.Interfaces;
 using Service.Implementations;
@@ -56,5 +57,19 @@ namespace Cinema.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public async Task<EditMovieDto> GetMovie(int movieId)
+        {
+            return await _movieService.GetMovie(movieId);
+
+        }
+
+        [HttpDelete]
+        public async Task<int> DeleteMovie(int movieId)
+        {
+           return await _movieService.Delete(movieId);
+        }
+
     }
 }
