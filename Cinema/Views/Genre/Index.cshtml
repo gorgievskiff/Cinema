@@ -1,0 +1,234 @@
+﻿@using Domain.DomainModels;
+@model List<Genre>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Genres";
+}
+
+<div class="container">
+    <div class="content-heading">
+        <div>
+            Genres
+            <div>
+                <small>Add, delete or update genre</small>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12 pt-3">
+        <div class="card rounded">
+            <div class="card-header text-white rounded">
+                <div class="card-title text-dark">List of genres</div>
+            </div>
+
+            <div>
+                <div class="card-body">
+                    <div class="text-sm mb-3">
+                        <button type="button" class="btn btn-primary rounded" data-bs-toggle="modal" data-bs-target="#addGenreModal">
+                            Add Genre
+                        </button>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped my-4 w-100" id="genresTable">
+                                <thead>
+                                    <tr>
+                                        <th>Genre Name</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.Name
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="deleteGenre('@item.Id')" class="btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#deleteGenreModal">
+                                                    Delete
+                                                </button>
+                                                <button type="button" onclick="editGenre('@item.Id')" class="btn btn-warning rounded" data-bs-toggle="modal" data-bs-target="#editGenreModal">
+                                                    Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @section Scripts{
+
+        <script>
+            function addGenreConfirmed() {
+                var genreName = $('#genreName').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("AddGenre","Genre")',
+                    data: {
+                        genreName: genreName
+                    },
+                    success: function (response) {
+                        $('#addGenreModal').modal('hide');
+                        location.reload();
+                    },
+                })
+            }
+
+            function deleteGenre(genreId){
+                 $('#genreId').val(genreId);
+                $('#deleteGenreTBody').html("");
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetGenre","Genre")',
+                    data: {
+                        genreId: genreId
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        $('#deleteGenreTBody').append(`
+                            <tr>
+                                <td>
+                                    ${response.name}
+                                </td>
+                           </tr>`);
+                        $('#deleteGenreModal').modal('show');
+                    },
+                })
+            }
+
+            function deleteGenreConfirmed(){
+                var genreId = $('#genreId').val();
+                $.ajax({
+                    type: 'DELETE',
+                    url: '@Url.Action("DeleteGenre","Genre")',
+                    data: {
+                        genreId: genreId
+                    },
+                    success: function (response) {
+                        location.reload();
+                    },
+                })
+            }
+
+            function editGenre(genreId) {
+                $('#genreId').val(genreId);
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetGenre","Genre")',
+                    data: {
+                        genreId: genreId
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        $('#editGenreName').val(response.name);
+                    },
+                })
+            }
+
+            function editGenreConfirmed() {
+                var genreId = $('#genreId').val();
+                var genreName = $('#editGenreName').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("EditGenre","Genre")',
+                    data: {
+                        genreId: genreId,
+                        genreName: genreName
+                    },
+                    success: function (response) {
+                        location.reload();
+                    },
+                })
+            }
+
+        </script>
+    }
+
+    @section BodyArea{
+        <!--Add Modal -->
+        <div class="modal fade" id="addGenreModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Genre</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="genreName">Genre Name</label>
+                            <input type="text" class="form-control rounded" id="genreName" aria-describedby="genreHelp" placeholder="Enter genre name">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" onclick="addGenreConfirmed()" class="btn btn-success rounded">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Delete Modal -->
+        <div class="modal fade" id="deleteGenreModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you want to delete this genre?</h1>
+                        <button type="button" class="btn-close rounded" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped my-4 w-100" id="deleteGenreTable">
+                                <thead>
+                                    <tr>
+                                        <th>Genre Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="deleteGenreTBody">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="text" hidden id="genreId"/>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" onclick="deleteGenreConfirmed()" class="btn btn-primary rounded">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Edit Modal -->
+        <div class="modal fade" id="editGenreModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Genre</h1>
+                        <button type="button" class="btn-close rounded" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="genreName">Genre Name</label>
+                            <input type="text" class="form-control rounded" id="editGenreName" aria-describedby="genreHelp" placeholder="Enter genre name">
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="text" hidden id="genreId" />
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" onclick="editGenreConfirmed()" class="btn btn-primary rounded">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+

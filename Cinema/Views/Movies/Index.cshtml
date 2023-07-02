@@ -1,0 +1,59 @@
+﻿@using Domain.DTO;
+@using Domain.DomainModels;
+@model List<DisplayMovieDto>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Movies";
+}
+
+<div class="container">
+    <div class="content-heading">
+        <div>
+            Movies
+            <div>
+                <small>Add, delete or update movie</small>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12 pt-3">
+        <div class="card rounded">
+            <div class="card-header text-white rounded">
+                <div class="card-title text-dark">List of movies</div>
+            </div>
+            <div>
+                <div class="card-body">
+                    @Html.ActionLink("Add Movie", "Add", "Movies", new {},
+                    new {@class="mb-3 btn btn-primary rounded"
+                    })
+                    <div class="text-sm mb-3">
+                        
+                        @foreach(var movie in Model)
+                        {
+                            <div class="card text-center" style="width: 18rem;">
+                                <img src="@movie.ImgUrl" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">@movie.Name</h5>
+                                    <p class="card-text">Year: @movie.Year</p>
+                                    <p class="card-text">Rating: @movie.Rating</p>
+                                    <p class="card-text">Genres: @movie.Genres</p>
+
+                                    @Html.ActionLink("Edit","Edit","Movies",new {@movieId = movie.Id},new {@class = "btn btn-warning rounded"})
+                                    <a href="#" class="btn btn-danger rounded">Delete</a>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
