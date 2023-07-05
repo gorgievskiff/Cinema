@@ -1,0 +1,132 @@
+﻿@using Domain.DTO;
+
+@model ShoppingCartTicketsDto
+<form method="post">
+    <br />
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-dark text-light ml-0">
+                <div class="row">
+                    <div class="col-6  pt-2">
+                        <i class="fa fa-shopping-cart"></i> &nbsp;
+                        Shopping Cart
+                    </div>
+                    <div class="col-6 text-end">
+                        <a asp-controller="Ticket" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                @if (Model.Tickets.Count > 0)
+                {
+                    @foreach (var item in Model.Tickets)
+                    {
+                        <div class="row">
+                            <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                                <img src="@item.Ticket.Movie.ImgUrl" class="rounded" width="100%" />
+                            </div>
+                            <div class="col-12 col-lg-6 pt-md-3">
+                                <h5><strong>@item.Ticket.Movie.Name</strong></h5>
+                                <p><small></small></p>
+                            </div>
+                            <div class="col-12  col-lg-5 text-center row">
+                                <div class="col-4 text-md-right pt-4">
+                                    <h6>
+                                        <strong>
+                                            @item.Ticket.Price.ToString("c")
+                                            <span class="text-muted">&nbsp;x&nbsp;</span>@item.Quantity
+                                        </strong>
+                                    </h6>
+                                </div>
+                                <div class="col-6 col-sm-4 col-lg-6 pt-2">
+                                    <div class="w-75 btn-group" role="group">
+                                        <a onclick="addOneTicket(@item.Id)" class="btn btn-primary rounded">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </a> &nbsp;
+                                        <a onclick="removeOneTicket(@item.Id)" class="btn btn-warning rounded">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </a>
+                                    </div>
+
+                                </div>
+                                <div class="col-2 col-sm-4 col-lg-2 text-right pt-2">
+                                    <a onclick="removeTicketFromShoppingCart(@item.Id)" class="btn btn-danger rounded">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    <div class="row">
+                        <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between bg-light">
+                                    <span class="text-info"> Total (USD)</span>
+                                    <strong class="text-info">@Model.TotalSum</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                <div class="card-footer">
+                    <div class="card-footer row">
+                        <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
+                            <a asp-controller="Orders" asp-action="Index" class="btn btn-success form-control">Checkout</a>
+                        </div>
+                    </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <p>There are no items in your shopping cart!</p>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        function addOneTicket(shoppingCartTicketId) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AddOneItemToCart","ShoppingCart")',
+                data: {
+                    shoppingCartTicketId: shoppingCartTicketId
+                },
+                success: function (response) {
+                    location.reload();
+                },
+            })
+        }
+        function removeOneTicket(shoppingCartTicketId) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RemoveOneItemFromCart","ShoppingCart")',
+                data: {
+                    shoppingCartTicketId: shoppingCartTicketId
+                },
+                success: function (response) {
+                    location.reload();
+                },
+            })
+        }
+        function removeTicketFromShoppingCart(shoppingCartTicketId) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RemoveTicketFromShoppingCart","ShoppingCart")',
+                data: {
+                    shoppingCartTicketId: shoppingCartTicketId
+                },
+                success: function (response) {
+                    location.reload();
+                },
+            })
+        }
+    </script>
+}

@@ -107,5 +107,22 @@ namespace Repo.Implementation
                 throw e;
             }
         }
+
+        public async Task<List<Ticket>> FilterTicketsByDate(string date)
+        {
+            try
+            {
+                var castedDate = Convert.ToDateTime(date);
+                return await _db.Tickets
+                                .Include(x => x.Movie)
+                                .Include(x => x.Movie.MovieGenres)
+                                .Where(x => x.Date.Date == castedDate.Date).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                throw;
+            }
+        }
     }
 }

@@ -5,6 +5,10 @@
     {
       "library": "moment.js@2.29.4",
       "destination": "wwwroot/js/moment.js/"
+    },
+    {
+      "library": "fontawesome-iconpicker@3.2.0",
+      "destination": "wwwroot/lib/fontawesome-iconpicker/"
     }
   ]
 }

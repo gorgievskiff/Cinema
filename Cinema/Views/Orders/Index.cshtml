@@ -1,0 +1,81 @@
+﻿@using Domain.DTO;
+
+@model ShoppingCartTicketsDto
+<form asp-action="PayForTickets" asp-controller="Orders" method="post">
+	<br />
+	<div class="container">
+		<div class="card">
+			<div class="card-header bg-dark text-light ml-0">
+				<div class="row">
+					<div class="col-6  pt-2">
+						<i class="fa fa-shopping-cart"></i> &nbsp;
+						Tickets for payment
+					</div>
+					<div class="col-6 text-end">
+						<a asp-controller="Ticket" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="card-body">
+				@foreach (var item in Model.Tickets)
+				{
+					<div class="row">
+						<div class="d-none d-lg-block col-lg-1 text-center py-2">
+							<img src="@item.Ticket.Movie.ImgUrl" class="rounded" width="100%" />
+						</div>
+						<div class="col-12 col-lg-6 pt-md-3">
+							<h5><strong>@item.Ticket.Movie.Name</strong></h5>
+							<p><small></small></p>
+						</div>
+						<div class="col-12  col-lg-5 text-center row">
+							<div class="col-4 text-md-right pt-4">
+								<h6>
+									<strong>
+										@item.Ticket.Price.ToString("c")
+										<span class="text-muted">&nbsp;x&nbsp;</span>@item.Quantity
+									</strong>
+								</h6>
+							</div>
+						</div>
+					</div>
+					<hr />
+				}
+				<div class="row">
+					<div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+						<ul class="list-group">
+							<li class="list-group-item d-flex justify-content-between bg-light">
+								<span class="text-info"> Total (USD)</span>
+								<strong class="text-info">@Model.TotalSum</strong>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer">
+				<div class="card-footer row">
+					<div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
+						<button type="submit" class="btn btn-success rounded form-control">Pay</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+@section Scripts{
+	<script>
+		function payForItems() {
+			$.ajax({
+				type: 'POST',
+				url: '@Url.Action("PayForTickets","Orders")',
+				data: {
+					
+				},
+				success: function (response) {
+					location.reload();
+				},
+			})
+		}
+	</script>
+}

@@ -17,5 +17,6 @@ namespace Service.Interfaces
         Task<Ticket> GetTicketById(Guid ticketId);
         Task<AddTicketDto> GetAddViewModel();
         Task<EditTicketDto> GetEditViewModel(Guid ticketId);
+        Task<List<Ticket>> FilterTicketsByDate(string date);
     }
 }

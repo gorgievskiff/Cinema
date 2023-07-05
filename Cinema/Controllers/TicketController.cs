@@ -61,5 +61,12 @@ namespace Cinema.Controllers
             return await _ticketService.Delete(ticketId);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> FilterTickets(string date)
+        {
+            var tickets = await _ticketService.FilterTicketsByDate(date);
+            return PartialView("_ListTickets",tickets);
+        }
+
     }
 }

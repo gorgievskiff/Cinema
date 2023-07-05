@@ -1,5 +1,6 @@
 ﻿using Domain.DomainModels;
 using Domain.DTO;
+using Repo.Implementation;
 using Repo.Interfaces;
 using Service.Interfaces;
 using System;
@@ -89,6 +90,20 @@ namespace Service.Implementations
 
             return editTicketDto;
 
+        }
+
+        public async Task<List<Ticket>> FilterTicketsByDate(string date)
+        {
+            List<Ticket> tickets = new List<Ticket>();
+            if (date != null)
+            {
+                tickets = await _ticketDa.FilterTicketsByDate(date);
+            }
+            else
+            {
+                tickets = await _ticketDa.GetAll();
+            }
+            return tickets;
         }
     }
 }

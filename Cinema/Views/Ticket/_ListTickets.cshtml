@@ -1,0 +1,37 @@
+﻿@using Domain.DTO;
+@using Domain.DomainModels;
+@model List<Ticket>
+
+<div class="row">
+    @foreach (var ticket in Model)
+    {
+        <div class="col-3">
+            <div class="card text-center rounded pt-2 mt-2" style="width: 18rem;">
+                <img src="@ticket.Movie.ImgUrl" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@ticket.Movie.Name</h5>
+                    <p class="card-text">Price: @ticket.Price $</p>
+                    <p class="card-text">Seat: @ticket.SeatNumber</p>
+                    @if(ticket.Date.Date < DateTime.Now.Date)
+                    {
+                        <p class="card-text">Is Available: Expired</p>
+                    }
+                    else{
+                        <p class="card-text">Is Available: Available</p>
+                    }
+
+                    <p class="card-text">Date: @ticket.Date.ToString("dd.MM.yyyy")</p>
+                    <p class="card-text">Time: @ticket.Time</p>
+
+                    @Html.ActionLink("Edit","Edit","Ticket",new {@ticketId = ticket.Id},new {@class = "btn btn-warning rounded"})
+                    <button type="button" onclick="deleteTicket('@ticket.Id')" class="btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#deleteTicketModal">
+                        Delete
+                    </button>
+                    <button type="button" onclick="addToCart('@ticket.Id')" class="btn btn-success rounded">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>

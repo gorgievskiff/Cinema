@@ -27,36 +27,22 @@
             </div>
             <div>
                 <div class="card-body">
-                    @Html.ActionLink("Add Ticket", "Add", "Ticket", new {},
-                    new {@class="mb-3 btn btn-primary rounded"
-                    })
-                    <div class="text-sm mb-3">
-                        <div class="row">
-                            @foreach (var ticket in Model)
-                            {
-                                <div class="col-3">
-                                    <div class="card text-center rounded pt-2 mt-2" style="width: 18rem;">
-                                        <img src="@ticket.Movie.ImgUrl" class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">@ticket.Movie.Name</h5>
-                                            <p class="card-text">Price: @ticket.Price $</p>
-                                            <p class="card-text">Seat: @ticket.SeatNumber</p>
-                                            <p class="card-text">Is Available: @ticket.IsAvailable</p>
-                                            <p class="card-text">Date: @ticket.Date.ToString("dd.MM.yyyy")</p>
-                                            <p class="card-text">Time: @ticket.Time</p>
-
-
-                                            @Html.ActionLink("Edit","Edit","Ticket",new {@ticketId = ticket.Id},new {@class = "btn btn-warning rounded"})
-                                            <button type="button" onclick="deleteTicket('@ticket.Id')" class="btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#deleteTicketModal">
-                                                Delete
-                                            </button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+                    <div class="row">
+                        <div class="col-2 text-center mt-2">
+                            @Html.ActionLink("Add Ticket", "Add", "Ticket", new {},
+                            new {@class="mb-3 btn btn-primary rounded"
+                            })
                         </div>
+                        <div class="col-2">
+                            <div class="form-floating mb-3 ml-3">
+                                <input type="date" onchange="filter()" class="form-control rounded" id="dateFilter" placeholder="dd.mm.yyyy">
+                                <label for="floatingInput">Date</label>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="text-sm mb-3" id="listTicketDiv">
+                       @await Html.PartialAsync("_ListTickets", Model)
                     </div>
                 </div>
 
@@ -104,7 +90,6 @@
                     },
                 })
             }
-
             function deleteTicketConfirmed() {
                 var ticketId = $('#ticketId').val();
                 $.ajax({
@@ -115,6 +100,47 @@
                     },
                     success: function (response) {
                         location.reload();
+                    },
+                })
+            }
+            function filter(){
+                var date = $('#dateFilter').val();
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("FilterTickets","Ticket")',
+                    data: {
+                        date: date
+                    },
+                    success: function (response) {
+                        $('#listTicketDiv').html(response)
+                        //location.reload();
+                    },
+                })
+            }
+            function addToCart(ticketId){
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("AddTicketToCart","ShoppingCart")',
+                    data: {
+                        ticketId: ticketId
+                    },
+                    success: function (response) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Ticket sucessfully added to shopping cart!'
+                        })
                     },
                 })
             }

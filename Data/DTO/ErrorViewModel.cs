@@ -1,4 +1,4 @@
-namespace Data
+namespace Domain.DTO
 {
     public class ErrorViewModel
     {
@@ -6,4 +6,4 @@ namespace Data
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
-}   
+}

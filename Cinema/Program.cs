@@ -22,6 +22,11 @@ builder.Services.TryAddScoped<IMovieService, MovieService>();
 builder.Services.TryAddScoped<IMovieDa, MovieDa>();
 builder.Services.TryAddScoped<ITicketDa, TicketDa>();
 builder.Services.TryAddScoped<ITicketService , TicketService>();
+builder.Services.TryAddScoped<IShoppingCartDa, ShoppingCartDa>();
+builder.Services.TryAddScoped<IShoppingCartService, ShoppingCartService>();
+builder.Services.TryAddScoped<IOrderDa, OrderDa>();
+builder.Services.TryAddScoped<IOrderService, OrderService>();
+
 
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

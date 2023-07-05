@@ -26,5 +26,8 @@ namespace Domain.DomainModels
         public int SeatNumber { get; set; }
         [Required]
         public bool IsAvailable { get; set; }
+
+        public virtual ICollection<ShoppingCartTickets> ShoppingCarts { get; set; }
+
     }
 }
