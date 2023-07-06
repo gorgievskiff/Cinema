@@ -7,17 +7,20 @@
     ViewData["Title"] = "Tickets";
 }
 
-<div class="container">
-    <div class="content-heading">
-        <div>
-            Tickets
+@if (User.IsInRole("Admin"))
+{
+    <div class="container">
+        <div class="content-heading">
             <div>
-                <small>Add, delete or update tickets</small>
+                Tickets
+                <div>
+                    <small>Add, delete or update tickets</small>
+                </div>
             </div>
         </div>
     </div>
+}
 
-</div>
 
 <div class="row">
     <div class="col-md-12 pt-3">
@@ -28,16 +31,19 @@
             <div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-2 text-center mt-2">
-                            @Html.ActionLink("Add Ticket", "Add", "Ticket", new {},
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="col-2 text-center mt-2">
+                                @Html.ActionLink("Add Ticket", "Add", "Ticket", new {},
                             new {@class="mb-3 btn btn-primary rounded"
                             })
-                        </div>
-                        <div class="col-2">
-                            <button type="button" onclick="exportExcel()" class="btn btn-warning rounded mt-2" data-bs-toggle="modal" data-bs-target="#exportToExcelModal">
-                                Export to excel
-                            </button>
-                        </div>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" onclick="exportExcel()" class="btn btn-warning rounded mt-2" data-bs-toggle="modal" data-bs-target="#exportToExcelModal">
+                                    Export to excel
+                                </button>
+                            </div>
+                        }
                         <div class="col-2">
                             <div class="form-floating mb-3 ml-3">
                                 <input type="date" onchange="filter()" class="form-control rounded" id="dateFilter" placeholder="dd.mm.yyyy">

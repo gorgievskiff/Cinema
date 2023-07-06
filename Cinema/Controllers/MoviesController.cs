@@ -1,5 +1,6 @@
 ﻿using Domain.DomainModels;
 using Domain.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repo.Interfaces;
 using Service.Implementations;
@@ -7,6 +8,7 @@ using Service.Interfaces;
 
 namespace Cinema.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MoviesController : Controller
     {
         private IGenreService _genreService;

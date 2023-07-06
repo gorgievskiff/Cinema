@@ -1,0 +1,130 @@
+﻿@using Domain.DTO;
+@using Domain.DomainModels;
+@model List<UserDto>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Users";
+}
+
+<div class="container">
+    <div class="content-heading">
+        <div>
+            Users
+            <div>
+                <small>Add, delete or update user</small>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12 pt-3">
+        <div class="card rounded">
+            <div class="card-header text-white rounded">
+                <div class="card-title text-dark">List of users</div>
+            </div>
+
+            <div>
+                <div class="card-body">
+                    <button type="button" class="btn btn-primary rounded" data-bs-toggle="modal" data-bs-target="#importUsersModal">
+                        Import Users
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped my-4 w-100" id="genresTable">
+                        <thead>
+                            <tr>
+                                <th>User Name</th>
+                                <th>User email</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Username
+                                    </td>
+                                    <td>
+                                        @item.Email
+                                    </td>
+                                    <td>
+                                        @if (item.Role == "Customer")
+                                        {
+                                            <button type="button" class="btn btn-success rounded" onclick="makeAdmin('@item.UserId')">Make Administrator</button>
+                                        }
+                                        else if(item.Role == "Admin")
+                                        {
+                                            <button type="button" class="btn btn-danger rounded" onclick="removeAdmin('@item.UserId')">Remove Administrator</button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function makeAdmin(userId) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("MakeAdmin","UserManagement")',
+                data: {
+                    userId: userId
+                },
+                success: function (response) {
+                    location.reload();
+                },
+            })
+        }
+        function removeAdmin(userId){
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RemoveAdmin","UserManagement")',
+                data: {
+                    userId: userId
+                },
+                success: function (response) {
+                    location.reload();
+                },
+            })
+        }
+    </script>
+}
+
+@section BodyArea{
+    <div class="modal fade" id="importUsersModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Import Users</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-controller="UserManagement" asp-action="ImportUsers" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label class="control-label" id="excelUsers">Attach document</label>
+                            <input id="excelUsers" name="excelUsers" class="form-control filestyle" type="file" data-classbutton="btn btn-secondary" data-classinput="form-control inline" data-icon="&lt;span class='fa fa-upload mr'&gt;&lt;/span&gt;" onchange="changedFile();" required />
+                        </div>
+                        <div class="mt-2">
+                            <button class="btn btn-sm rounded bg-success" type="submit" style="width:150px;" id="importTemplateButton">Upload</button>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    }

@@ -1,9 +1,11 @@
 ﻿using Domain.DomainModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
 
 namespace Cinema.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class GenreController : Controller
     {
         private IGenreService _genreService;

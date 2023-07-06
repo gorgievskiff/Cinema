@@ -10,9 +10,11 @@ using Service;
 using System.Text;
 using DinkToPdf.Contracts;
 using DinkToPdf;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinema.Controllers
 {
+    [Authorize]
 	public class OrdersController : Controller
 	{
 		private readonly IShoppingCartService _shoppingCartService;

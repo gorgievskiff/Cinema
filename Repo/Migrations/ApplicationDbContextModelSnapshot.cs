@@ -36,7 +36,7 @@ namespace Cinema.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genres", (string)null);
                 });
 
             modelBuilder.Entity("Domain.DomainModels.Movie", b =>
@@ -63,7 +63,7 @@ namespace Cinema.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Movies", (string)null);
                 });
 
             modelBuilder.Entity("Domain.DomainModels.MovieGenre", b =>
@@ -86,7 +86,7 @@ namespace Cinema.Data.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("MovieGenres");
+                    b.ToTable("MovieGenres", (string)null);
                 });
 
             modelBuilder.Entity("Domain.DomainModels.Order", b =>
@@ -109,7 +109,7 @@ namespace Cinema.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Domain.DomainModels.OrderItems", b =>
@@ -132,7 +132,7 @@ namespace Cinema.Data.Migrations
 
                     b.HasIndex("ShoppingCartTicketsId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("Domain.DomainModels.ShoppingCart", b =>
@@ -151,7 +151,7 @@ namespace Cinema.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShoppingCarts");
+                    b.ToTable("ShoppingCarts", (string)null);
                 });
 
             modelBuilder.Entity("Domain.DomainModels.ShoppingCartTickets", b =>
@@ -180,7 +180,7 @@ namespace Cinema.Data.Migrations
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("ShoppingCartTickets");
+                    b.ToTable("ShoppingCartTickets", (string)null);
                 });
 
             modelBuilder.Entity("Domain.DomainModels.Ticket", b =>
@@ -212,7 +212,7 @@ namespace Cinema.Data.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -23,10 +23,13 @@
                     <p class="card-text">Date: @ticket.Date.ToString("dd.MM.yyyy")</p>
                     <p class="card-text">Time: @ticket.Time</p>
 
-                    @Html.ActionLink("Edit","Edit","Ticket",new {@ticketId = ticket.Id},new {@class = "btn btn-warning rounded"})
-                    <button type="button" onclick="deleteTicket('@ticket.Id')" class="btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#deleteTicketModal">
-                        Delete
-                    </button>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @Html.ActionLink("Edit","Edit","Ticket",new {@ticketId = ticket.Id},new {@class = "btn btn-warning rounded"})
+                        <button type="button" onclick="deleteTicket('@ticket.Id')" class="btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#deleteTicketModal">
+                            Delete
+                        </button>
+                    }
                     <button type="button" onclick="addToCart('@ticket.Id')" class="btn btn-success rounded">
                         Add to Cart
                     </button>

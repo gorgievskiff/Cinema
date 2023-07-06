@@ -8,6 +8,8 @@ using System.Diagnostics.Metrics;
 using MimeKit;
 using MailKit;
 using Service;
+using Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinema.Controllers
 {
@@ -32,6 +34,7 @@ namespace Cinema.Controllers
             return View(tickets);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Add()
         {
             var viewModel = await _ticketService.GetAddViewModel();
@@ -39,13 +42,15 @@ namespace Cinema.Controllers
             return View(viewModel);
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Add(AddTicketDto ticketDto)
         {
             await _ticketService.Add(ticketDto);
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Guid ticketId)
         {
             var viewModel = await _ticketService.GetEditViewModel(ticketId);
@@ -53,6 +58,7 @@ namespace Cinema.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(EditTicketDto ticketDto)
         {
@@ -66,6 +72,7 @@ namespace Cinema.Controllers
             return await _ticketService.GetTicketById(ticketId);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<int> DeleteTicket(Guid ticketId)
         {
@@ -79,6 +86,7 @@ namespace Cinema.Controllers
             return PartialView("_ListTickets",tickets);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> ExportToExcel(int genreId)
         {
