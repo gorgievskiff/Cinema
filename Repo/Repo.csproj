@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data\Domain.csproj" />
+    <ProjectReference Include="..\Enums\Enums.csproj" />
   </ItemGroup>
 
 </Project>

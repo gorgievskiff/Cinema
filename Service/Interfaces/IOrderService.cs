@@ -11,5 +11,6 @@ namespace Service.Interfaces
 	{
 		Task<int> PayOrderInShoppingCart(string userId);
 		Task<List<ListPaidOrdersDto>> GetAllPaidOrders(string userId);
-	}
+        Task<string> GetUserEmailByUserId(string userId);
+    }
 }

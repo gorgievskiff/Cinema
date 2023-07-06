@@ -16,5 +16,7 @@ namespace Repo.Interfaces
         Task<List<Ticket>> GetAll();
         Task<Ticket> GetTicketById(Guid ticketId);
         Task<List<Ticket>> FilterTicketsByDate(string date);
+        Task<List<Ticket>> GetTicketsByGenreId(int genreId);
+        
     }
 }

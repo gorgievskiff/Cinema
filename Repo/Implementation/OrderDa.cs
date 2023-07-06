@@ -80,6 +80,7 @@ namespace Repo.Implementation
 					{
                         paidOrder.TotalSum = order.TotalSum;
                         paidOrder.OrderDate = order.OrderDate;
+						paidOrder.OrderId = order.Id;
                     }
 
                     var listItems = new List<PaidMovieTicketDto>();
@@ -111,5 +112,17 @@ namespace Repo.Implementation
 				throw;
 			}
 		}
-	}
+        public async Task<string> GetUserEmailByUserId(string userId)
+        {
+            try
+            {
+                return await _db.Users.Where(x => x.Id == userId).Select(x => x.Email).FirstOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                throw;
+            }
+        }
+    }
 }

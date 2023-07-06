@@ -105,5 +105,10 @@ namespace Service.Implementations
             }
             return tickets;
         }
+        public async Task<List<Ticket>> GetTicketsByGenreId(int genreId)
+        {
+            return await _ticketDa.GetTicketsByGenreId(genreId);  
+        }
+        
     }
 }

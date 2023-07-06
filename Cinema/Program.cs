@@ -1,3 +1,7 @@
+using DinkToPdf.Contracts;
+using DinkToPdf;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using Domain.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -6,6 +10,7 @@ using Repo.Implementation;
 using Repo.Interfaces;
 using Service.Implementations;
 using Service.Interfaces;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +31,16 @@ builder.Services.TryAddScoped<IShoppingCartDa, ShoppingCartDa>();
 builder.Services.TryAddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.TryAddScoped<IOrderDa, OrderDa>();
 builder.Services.TryAddScoped<IOrderService, OrderService>();
+//builder.Services.TryAddScoped<IUserManager, UserManagerCinema>();
 
+builder.Services.TryAddScoped<IEmailServiceOwn, EmailServiceC>();
 
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
+var emailConfig = builder.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();

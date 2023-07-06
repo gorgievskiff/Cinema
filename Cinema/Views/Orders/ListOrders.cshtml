@@ -55,6 +55,10 @@
                         </ul>
                     </div>
                 </div>
+                <div class="text-end mt-3">
+                    <a asp-controller="Orders" asp-action="PdfExport" asp-route-orderId="@item.OrderId" class="btn btn-outline-info btn-sm rounded">Pdf Export</a>
+                </div>
+
                 <hr />
 
             }

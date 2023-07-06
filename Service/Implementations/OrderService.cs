@@ -1,4 +1,5 @@
 ﻿using Domain.DTO;
+using Repo.Implementation;
 using Repo.Interfaces;
 using Service.Interfaces;
 using System;
@@ -24,5 +25,9 @@ namespace Service.Implementations
 		{
 			return await _orderDa.GetAllPaidOrders(userId);
 		}
-	}
+        public async Task<string> GetUserEmailByUserId(string userId)
+        {
+            return await _orderDa.GetUserEmailByUserId(userId);
+        }
+    }
 }

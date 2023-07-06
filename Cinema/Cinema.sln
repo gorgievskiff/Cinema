@@ -8,12 +8,17 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "..\Data\Domain.csproj", "{7FDFF35C-2E65-402A-A3DA-88C4B9A76610}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repo", "..\Repo\Repo.csproj", "{F8FF8AEB-F6AB-4C5C-91A9-09A7BE4D697F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7AFD98E2-B49B-42BB-AFB8-D5511E7E821F} = {7AFD98E2-B49B-42BB-AFB8-D5511E7E821F}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "..\Service\Service.csproj", "{F5D6BCE1-8F4E-4370-85EB-ECE2ACBC9613}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7FDFF35C-2E65-402A-A3DA-88C4B9A76610} = {7FDFF35C-2E65-402A-A3DA-88C4B9A76610}
 		{F8FF8AEB-F6AB-4C5C-91A9-09A7BE4D697F} = {F8FF8AEB-F6AB-4C5C-91A9-09A7BE4D697F}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enums", "..\Enums\Enums.csproj", "{7AFD98E2-B49B-42BB-AFB8-D5511E7E821F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +42,10 @@ Global
 		{F5D6BCE1-8F4E-4370-85EB-ECE2ACBC9613}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5D6BCE1-8F4E-4370-85EB-ECE2ACBC9613}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5D6BCE1-8F4E-4370-85EB-ECE2ACBC9613}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AFD98E2-B49B-42BB-AFB8-D5511E7E821F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AFD98E2-B49B-42BB-AFB8-D5511E7E821F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AFD98E2-B49B-42BB-AFB8-D5511E7E821F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AFD98E2-B49B-42BB-AFB8-D5511E7E821F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

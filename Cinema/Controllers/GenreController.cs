@@ -41,5 +41,11 @@ namespace Cinema.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<List<Genre>> GetAll()
+        {
+            return await _genreService.GetAll();
+        }
+
     }
 }

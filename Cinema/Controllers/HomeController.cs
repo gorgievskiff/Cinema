@@ -1,5 +1,7 @@
 ﻿using Domain.DTO;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Repo.Interfaces;
 using System.Diagnostics;
 
 namespace Cinema.Controllers
@@ -13,7 +15,7 @@ namespace Cinema.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }

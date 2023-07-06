@@ -9,6 +9,7 @@ namespace Domain.DTO
 {
 	public class ListPaidOrdersDto
 	{
+        public int OrderId { get; set; }
         public double TotalSum { get; set; }
         public DateTime OrderDate { get; set; }
         public List<PaidMovieTicketDto> PaidTicketMovies { get; set; }

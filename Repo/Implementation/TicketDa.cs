@@ -124,5 +124,38 @@ namespace Repo.Implementation
                 throw;
             }
         }
+         
+        public async Task<List<Ticket>> GetTicketsByGenreId(int genreId)
+        {
+            try
+            {
+                var movieGenres = await _db.MovieGenres.Include(x => x.Movie).ToListAsync();
+                movieGenres = movieGenres.Where(x => x.GenreId == genreId).ToList();
+
+                var allTickets = await _db.Tickets.ToListAsync();
+                var tickets = new List<Ticket>();
+                
+                foreach(var ticket in allTickets)
+                {
+                    foreach(var genre in movieGenres)
+                    {
+                        if(ticket.MovieId == genre.MovieId)
+                        {
+                            tickets.Add(ticket);
+                        }
+                    }
+                }
+
+                return tickets;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                throw e;
+            }
+        }
+
+        
     }
 }
