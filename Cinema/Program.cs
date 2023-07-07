@@ -68,6 +68,7 @@ using (var scope = serviceProvider.CreateScope())
     // Get the RoleManager and UserManager from the DI container
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var cartService = scope.ServiceProvider.GetRequiredService<IShoppingCartService>();
 
     // Create roles if they don't exist 
     var roles = new[] { "Customer", "Admin" };
@@ -80,13 +81,15 @@ using (var scope = serviceProvider.CreateScope())
     }
 
     // Create the admin user if it doesn't exist
-    var adminEmail = "filip192011@gmail.com";
+    var adminEmail = "filipgorg192011@gmail.com";
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
     if (adminUser == null)
     {
         adminUser = new ApplicationUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
 
         var result = await userManager.CreateAsync(adminUser, "AdminPassword123!");
+
+        await cartService.Add(new ShoppingCart { UserId = adminUser.Id });
 
         if (result.Succeeded)
         {
